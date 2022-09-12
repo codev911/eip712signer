@@ -12,6 +12,8 @@ declare let window:any;
 export class AppComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef){}
 
+  private provider: any | undefined;
+  
   nameForm: FormControl = new FormControl('', [Validators.required]);
   versionForm: FormControl = new FormControl('', [Validators.required]);
   chainIdForm: FormControl = new FormControl('', [Validators.required]);
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit {
 
     if(isMetamaskAvailable === true && isMetamaskAvailable !== undefined){
       this.metamaskInstalled = true;
+      this.provider = new ethers.providers.Web3Provider(window.ethereum);
       window.ethereum.on('disconnect', () => {
         this.wallet = undefined;
         this.chainIdForm.setValue(undefined);
@@ -82,7 +85,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  async sign(): Promise<void> {
+  async signWithEther(): Promise<void> {
     if(
       this.nameForm.valid &&
       this.versionForm.valid &&
@@ -97,44 +100,39 @@ export class AppComponent implements OnInit {
       this.s = undefined;
 
       try{
-        const domain = [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-          { name: "chainId", type: "uint256" },
-          { name: "verifyingContract", type: "address" },
-        ];
-        const domainData = {
+        const domain = {
           name: (this.nameForm.value).toString(),
           version: (this.versionForm.value).toString(),
           chainId: parseInt(this.chainIdForm.value),
           verifyingContract: (this.verifierForm.value).toString(),
         };
-  
+        console.log(domain)
   
         const functionName = (this.functionNameForm.value).toString();
-        const typesString = `[{"EIP712Domain": ${JSON.stringify(domain)}, "${functionName}": ${this.functionMemberForm.value}}]`;
+        const typesString = `{"${functionName}": ${this.functionMemberForm.value}}`;
         console.log(typeof(typesString), typesString)
         const types = JSON.parse(typesString);
         console.log(types);
-        const inputmessage = JSON.parse(this.functionMessageForm.value)
-        console.log(inputmessage)
+        const message = JSON.parse(this.functionMessageForm.value)
+        console.log(message)
   
-        const data = JSON.stringify({
-          types: types[0],
-          domain: domainData,
-          primaryType: functionName,
-          message: inputmessage
-        });
-        console.log(data);
-  
-        const signature = await window.ethereum.request({
-          method: 'eth_signTypedData_v4',
-          params: [this.wallet!, data],
-          from: this.wallet!
-        });
+        const signature = await this.provider.getSigner(this.wallet!)._signTypedData(
+          domain,
+          types,
+          message
+        );
   
         this.signature = signature;
         console.log(this.signature);
+  
+        const verify = await ethers.utils.verifyTypedData(
+          domain,
+          types,
+          message,
+          signature
+        );
+
+        console.log(verify);
 
         const v = "0x" + signature.slice(130, 132);
         const r = signature.slice(0, 66);
