@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ethers } from 'ethers';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -10,6 +10,8 @@ declare let window:any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  constructor(private cdr: ChangeDetectorRef){}
+
   nameForm: FormControl = new FormControl('', [Validators.required]);
   versionForm: FormControl = new FormControl('', [Validators.required]);
   chainIdForm: FormControl = new FormControl('', [Validators.required]);
@@ -31,16 +33,19 @@ export class AppComponent implements OnInit {
         this.wallet = undefined;
         this.chainIdForm.setValue(undefined);
         this.chainIdForm.enable();
+        this.cdr.detectChanges();
       });
       window.ethereum.on('accountsChanged', () => {
         this.wallet = undefined;
         this.chainIdForm.setValue(undefined);
         this.chainIdForm.enable();
+        this.cdr.detectChanges();
       });
       window.ethereum.on('chainChanged', () => {
         this.wallet = undefined;
         this.chainIdForm.setValue(undefined);
         this.chainIdForm.enable();
+        this.cdr.detectChanges();
       });
     }else{
       console.log("Please install metamask first");
@@ -67,6 +72,7 @@ export class AppComponent implements OnInit {
       this.networkId = parseInt(await data[1]);
       this.chainIdForm.setValue(this.networkId);
       this.chainIdForm.disable();
+      this.cdr.detectChanges();
     }else{
       console.log("Please install metamask")
     }

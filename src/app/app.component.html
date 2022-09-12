@@ -54,13 +54,28 @@
         </div>
       </div>
     </div>
-    <div class="sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-      <button *ngIf="wallet === undefined" (click)="connect()" class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-        Connect
-      </button>
-      <button *ngIf="wallet !== undefined" class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-        Sign
-      </button>
-    </div>
+    <ng-container *ngIf="metamaskInstalled; else notMetamask">
+      <div class="sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+        <ng-container *ngIf="wallet === undefined; else sign">
+          <button (click)="connect()" class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Connect
+          </button>
+        </ng-container>
+        <ng-template #sign>
+          <button class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Sign
+          </button>
+        </ng-template>
+      </div>
+    </ng-container>
+    <ng-template #notMetamask>
+      <div class="sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+        <a href="https://metamask.io/" target="_blank">
+          <button class="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Download Metamask
+          </button>
+        </a>
+      </div>
+    </ng-template>
   </div>
 </div>
