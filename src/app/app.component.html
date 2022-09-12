@@ -54,6 +54,22 @@
         </div>
       </div>
     </div>
+    <ng-container *ngIf="signature !== undefined">
+      <div class="sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+        <p class="break-all">
+          <b>Signature : </b> {{ signature }}
+        </p>
+        <p class="break-all">
+          <b>v : </b> {{ v }}
+        </p>
+        <p class="break-all">
+          <b>r : </b> {{ r }}
+        </p>
+        <p class="break-all">
+          <b>s : </b> {{ s }}
+        </p>
+      </div>
+    </ng-container>
     <ng-container *ngIf="metamaskInstalled; else notMetamask">
       <div class="sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
         <ng-container *ngIf="wallet === undefined; else connected">

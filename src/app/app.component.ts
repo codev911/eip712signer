@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ethers } from 'ethers';
 import { FormControl, Validators } from '@angular/forms';
 
 declare let window:any;
@@ -22,6 +23,9 @@ export class AppComponent implements OnInit {
   wallet: string | undefined;
   networkId: number | undefined;
   signature: string | undefined;
+  s: string | undefined;
+  r: string | undefined;
+  v: number | undefined;
   metamaskInstalled: boolean = false;
 
   async ngOnInit(): Promise<void>{
@@ -87,6 +91,11 @@ export class AppComponent implements OnInit {
       this.functionMemberForm.valid &&
       this.functionMessageForm.valid
     ){
+      this.signature = undefined;
+      this.v = undefined;
+      this.r = undefined;
+      this.s = undefined;
+
       try{
         const domain = [
           { name: "name", type: "string" },
@@ -126,10 +135,20 @@ export class AppComponent implements OnInit {
   
         this.signature = signature;
         console.log(this.signature);
+
+        const v = "0x" + signature.slice(130, 132);
+        const r = signature.slice(0, 66);
+        const s = "0x" + signature.slice(66, 130);
+    
+        this.v = ethers.BigNumber.from(v.toString()).toNumber();
+        this.r = r;
+        this.s = s;
       }catch(e: any){
         console.log(e);
         alert(e.message);
       }
+
+      this.cdr.detectChanges();
     }else{
       console.log("fill all form!");
       alert("fill all form!");
