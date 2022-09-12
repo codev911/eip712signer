@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ethers } from 'ethers';
 import { FormControl, Validators } from '@angular/forms';
 
 declare let window:any;
@@ -22,6 +21,7 @@ export class AppComponent implements OnInit {
 
   wallet: string | undefined;
   networkId: number | undefined;
+  signature: string | undefined;
   metamaskInstalled: boolean = false;
 
   async ngOnInit(): Promise<void>{
@@ -75,6 +75,64 @@ export class AppComponent implements OnInit {
       this.cdr.detectChanges();
     }else{
       console.log("Please install metamask")
+    }
+  }
+
+  async sign(): Promise<void> {
+    if(
+      this.nameForm.valid &&
+      this.versionForm.valid &&
+      this.verifierForm.valid &&
+      this.functionNameForm.valid &&
+      this.functionMemberForm.valid &&
+      this.functionMessageForm.valid
+    ){
+      try{
+        const domain = [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          { name: "chainId", type: "uint256" },
+          { name: "verifyingContract", type: "address" },
+        ];
+        const domainData = {
+          name: (this.nameForm.value).toString(),
+          version: (this.versionForm.value).toString(),
+          chainId: parseInt(this.chainIdForm.value),
+          verifyingContract: (this.verifierForm.value).toString(),
+        };
+  
+  
+        const functionName = (this.functionNameForm.value).toString();
+        const typesString = `[{"EIP712Domain": ${JSON.stringify(domain)}, "${functionName}": ${this.functionMemberForm.value}}]`;
+        console.log(typeof(typesString), typesString)
+        const types = JSON.parse(typesString);
+        console.log(types);
+        const inputmessage = JSON.parse(this.functionMessageForm.value)
+        console.log(inputmessage)
+  
+        const data = JSON.stringify({
+          types: types[0],
+          domain: domainData,
+          primaryType: functionName,
+          message: inputmessage
+        });
+        console.log(data);
+  
+        const signature = await window.ethereum.request({
+          method: 'eth_signTypedData_v4',
+          params: [this.wallet!, data],
+          from: this.wallet!
+        });
+  
+        this.signature = signature;
+        console.log(this.signature);
+      }catch(e: any){
+        console.log(e);
+        alert(e.message);
+      }
+    }else{
+      console.log("fill all form!");
+      alert("fill all form!");
     }
   }
 }
