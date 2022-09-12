@@ -11,25 +11,25 @@
     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
       <label for="name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Name</label>
       <div class="sm:col-span-2 sm:mt-0">
-        <div class="flex max-w-lg rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
           <input type="text" [formControl]="nameForm" name="name" id="name" autocomplete="name" placeholder="string" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
         </div>
       </div>
       <label for="version" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Version</label>
       <div class="sm:col-span-2 sm:mt-0">
-        <div class="flex max-w-lg rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
           <input type="text" [formControl]="versionForm" name="version" id="version" autocomplete="version" placeholder="string" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
         </div>
       </div>
       <label for="chainid" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Chain ID</label>
       <div class="sm:col-span-2 sm:mt-0">
-        <div class="flex max-w-lg rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
           <input type="number" [formControl]="chainIdForm" name="chainid" id="chainid" autocomplete="chainid" placeholder="number" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
         </div>
       </div>
       <label for="verifierAddress" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Verifier Address</label>
       <div class="sm:col-span-2 sm:mt-0">
-        <div class="flex max-w-lg rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
           <input type="text" [formControl]="verifierForm" name="verifierAddress" id="verifierAddress" autocomplete="verifierAddress" placeholder="string (0x..)" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
         </div>
       </div>
@@ -37,19 +37,19 @@
     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
       <label for="functionName" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Function Name</label>
       <div class="sm:col-span-2 sm:mt-0">
-        <div class="flex max-w-lg rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
           <input type="text" [formControl]="functionNameForm" name="functionName" id="functionName" autocomplete="functionName" placeholder="string" class="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
         </div>
       </div>
       <label for="functionMember" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Function Member</label>
       <div class="sm:col-span-2 sm:mt-0">
-        <div class="flex max-w-lg rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
           <textarea [formControl]="functionMemberForm" name="functionMember" id="functionMember" autocomplete="functionMember" placeholder='[{ "name": "param", type: "paramType" }]' class="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
         </div>
       </div>
       <label for="functionMessage" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Function Message</label>
       <div class="sm:col-span-2 sm:mt-0">
-        <div class="flex max-w-lg rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
           <textarea name="functionMessage" [formControl]="functionMessageForm" id="functionMessage" autocomplete="functionMessage" placeholder='{ "param": "paramValue" }' class="block w-full min-w-0 flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
         </div>
       </div>
