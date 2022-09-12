@@ -79,7 +79,8 @@
                 }
               ],
               "outputHashing": "all",
-              "outputPath": "./docs"
+              "outputPath": "./docs",
+              "baseHref": "https://codev.my.id/eip712signer/"
             },
             "production": {
               "budgets": [
